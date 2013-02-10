@@ -256,6 +256,10 @@ class WebDriverExtension implements Extension {
     }
 }
 
+/**
+ * in contrast to the original implementation this modified version
+ * will not inject into non null members.
+ */
 class MyPageFactory {
 
     static void initElements(WebDriver driver, Object page) {
@@ -263,26 +267,11 @@ class MyPageFactory {
         initElements(new DefaultElementLocatorFactory(driverRef), page);
     }
 
-    /**
-     * Similar to the other "initElements" methods, but takes an {@link ElementLocatorFactory} which
-     * is used for providing the mechanism for fniding elements. If the ElementLocatorFactory returns
-     * null then the field won't be decorated.
-     *
-     * @param factory The factory to use
-     * @param page    The object to decorate the fields of
-     */
     static void initElements(ElementLocatorFactory factory, Object page) {
         final ElementLocatorFactory factoryRef = factory;
         initElements(new DefaultFieldDecorator(factoryRef), page);
     }
 
-    /**
-     * Similar to the other "initElements" methods, but takes an {@link FieldDecorator} which is used
-     * for decorating each of the fields.
-     *
-     * @param decorator the decorator to use
-     * @param page      The object to decorate the fields of
-     */
     static void initElements(FieldDecorator decorator, Object page) {
         Class<?> proxyIn = page.getClass();
         while (proxyIn != Object.class) {
