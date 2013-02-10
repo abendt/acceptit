@@ -1,0 +1,15 @@
+<project>
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>de.akquinet.acceptit</groupId>
+    <artifactId>acceptit</artifactId>
+    <packaging>pom</packaging>
+    <version>0.1-SNAPSHOT</version>
+
+    <modules>
+        <module>acceptit-core</module>
+        <module>acceptit-webdriver</module>
+    </modules>
+
+
+</project>
