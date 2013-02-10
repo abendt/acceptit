@@ -33,7 +33,11 @@ public class GooglePage extends LoadableComponent<GooglePage> {
 
     @Inject
     @FindBy(name = "q")
-    private GoogleSearchField googleSearchField;
+    private SearchFieldUsingBy searchFieldUsingBy;
+
+    @Inject
+    @FindBy(name = "q")
+    private SearchFieldUsingWebElement searchFieldUsingWebElement;
 
     @Override
     protected void load() {
@@ -45,8 +49,14 @@ public class GooglePage extends LoadableComponent<GooglePage> {
         assertThat(driver.getTitle()).contains("Google");
     }
 
-    public void searchUsingPageComponent(String query) {
-        googleSearchField.search(query);
+    public void searchUsingAtomBy(String query) {
+        searchFieldUsingBy.search(query);
+
+        waitUntilSearchResultIsDisplayed();
+    }
+
+    public void searchUsingAtomWebElement(String query) {
+        searchFieldUsingWebElement.search(query);
 
         waitUntilSearchResultIsDisplayed();
     }

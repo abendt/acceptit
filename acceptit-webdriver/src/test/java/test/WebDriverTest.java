@@ -39,9 +39,17 @@ public class WebDriverTest {
     }
 
     @Test
-    public void canUsePageObjectWithPageComponentToSearchGoogle() {
+    public void canUsePageObjectWithPageAtomUsingBy() {
         googlePage.get();
-        googlePage.searchUsingPageComponent("akquinet.de");
+        googlePage.searchUsingAtomBy("akquinet.de");
+
+        assertThat(googlePage.getSearchResults()).contains("akquinet AG: akquinet AG Deutschland");
+    }
+
+    @Test
+    public void canUsePageObjectWithPageAtomUsingWebElement() {
+        googlePage.get();
+        googlePage.searchUsingAtomWebElement("akquinet.de");
 
         assertThat(googlePage.getSearchResults()).contains("akquinet AG: akquinet AG Deutschland");
     }

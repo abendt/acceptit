@@ -1,6 +1,7 @@
 package de.akquinet.acceptit.webdriver;
 
 import de.akquinet.acceptit.TestScoped;
+import org.jboss.solder.bean.defaultbean.DefaultBean;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
@@ -14,23 +15,27 @@ import javax.enterprise.inject.Produces;
 /**
  * @author Alphonse Bendt
  */
-public class WebDriverProvider {
+class WebDriverProvider {
 
-//    @Produces
-    @TestScoped
-    public WebDriver createFirefox() {
+    @Produces
+    @DefaultBean(FirefoxProfile.class)
+    FirefoxProfile createProfile() {
         FirefoxProfile profile = new FirefoxProfile();
         profile.setPreference("intl.accept_languages", "de");
 
-        final WebDriver driver = new FirefoxDriver(profile);
+        return profile;
+    }
 
-        return driver;
+    //    @Produces
+    @TestScoped
+    WebDriver createFirefox(FirefoxProfile profile) {
+        return new FirefoxDriver(profile);
     }
 
 
     @Produces
     @TestScoped
-    public WebDriver createPhantomJs() {
+    WebDriver createPhantomJs() {
         DesiredCapabilities sCaps = new DesiredCapabilities();
         sCaps.setJavascriptEnabled(true);
         sCaps.setCapability("takesScreenshot", true);
@@ -41,7 +46,7 @@ public class WebDriverProvider {
     }
 
     @TestScoped
-    public void disposeWebDriver(@Disposes WebDriver driver) {
+    void disposeWebDriver(@Disposes WebDriver driver) {
         driver.quit();
     }
 }

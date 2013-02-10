@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * @author Alphonse Bendt
  */
-public class AcceptItExtension implements Extension {
+class AcceptItExtension implements Extension {
 
     private BoundRequestContextImpl testExecutionContext = new BoundRequestContextImpl() {
         @Override
@@ -21,11 +21,11 @@ public class AcceptItExtension implements Extension {
         }
     };
 
-    private void beforeBeanDiscovery(@Observes BeforeBeanDiscovery bbd) {
+    void beforeBeanDiscovery(@Observes BeforeBeanDiscovery bbd) {
         bbd.addScope(TestScoped.class, true, false);
     }
 
-    private void afterBeanDiscovery(@Observes AfterBeanDiscovery abd) {
+    void afterBeanDiscovery(@Observes AfterBeanDiscovery abd) {
         abd.addContext(testExecutionContext);
     }
 
