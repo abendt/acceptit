@@ -1,5 +1,6 @@
 package de.akquinet.acceptit.webdriver;
 
+import org.jboss.solder.beanManager.BeanManagerUtils;
 import org.jboss.weld.injection.ForwardingInjectionTarget;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,13 +12,15 @@ import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Default;
-import javax.enterprise.inject.UnsatisfiedResolutionException;
 import javax.enterprise.inject.spi.*;
 import javax.enterprise.util.AnnotationLiteral;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
 
 /**
  * @author Alphonse Bendt
@@ -45,7 +48,7 @@ class WebDriverExtension implements Extension {
     }
 
     private void pushCurrentInjectionPoint(BeanManager bm) {
-        InjectionPoint ip = getInstanceByType(bm, InjectionPoint.class);
+        InjectionPoint ip = BeanManagerUtils.getContextualInstance(bm, InjectionPoint.class);
 
         currentInjectionPointForPageComponent.get().push(ip);
     }
@@ -173,17 +176,7 @@ class WebDriverExtension implements Extension {
     }
 
     private WebDriver getWebDriver(BeanManager bm) {
-        return getInstanceByType(bm, WebDriver.class);
-    }
-
-    // copied from Weld.java
-    private <T> T getInstanceByType(BeanManager manager, Class<T> type, Annotation... bindings) {
-        final Bean<?> bean = manager.resolve(manager.getBeans(type, bindings));
-        if (bean == null) {
-            throw new UnsatisfiedResolutionException("Unable to resolve a bean for " + type + " with bindings " + Arrays.asList(bindings));
-        }
-        CreationalContext<?> cc = manager.createCreationalContext(bean);
-        return type.cast(manager.getReference(bean, type, cc));
+        return BeanManagerUtils.getContextualInstance(bm, WebDriver.class);
     }
 
     private abstract class EmptyBean<X> implements Bean<X> {
