@@ -1,10 +1,14 @@
 package test;
 
 import de.akquinet.acceptit.AcceptItRule;
+import de.akquinet.acceptit.TestScoped;
 import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
 import static org.fest.assertions.api.Assertions.assertThat;
@@ -22,6 +26,17 @@ public class WebDriverTest {
 
     @Inject
     GooglePage googlePage;
+
+    @Produces
+    @TestScoped
+    WebDriver createPhantomJs() {
+
+        DesiredCapabilities sCaps = new DesiredCapabilities();
+        sCaps.setJavascriptEnabled(true);
+        sCaps.setCapability("takesScreenshot", true);
+
+        return new PhantomJSDriver(sCaps);
+    }
 
     @Test
     public void canDirectlyUseWebDriver() {
