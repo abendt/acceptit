@@ -21,27 +21,16 @@
         </dependency>
 
         <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-firefox-driver</artifactId>
-            <version>2.28.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.github.detro.ghostdriver</groupId>
             <artifactId>phantomjsdriver</artifactId>
             <version>1.0.1</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-support</artifactId>
             <version>2.28.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcore</artifactId>
-            <version>4.2.1</version>
         </dependency>
 
         <dependency>
