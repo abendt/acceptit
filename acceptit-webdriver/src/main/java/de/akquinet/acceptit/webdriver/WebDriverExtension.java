@@ -139,14 +139,19 @@ class WebDriverExtension implements Extension {
             }
 
             @Override
-            public void postConstruct(X instance) {
-                super.postConstruct(instance);
-
-                popCurrentInjectionPoint();
+            public void inject(X instance, CreationalContext<X> ctx) {
+                super.inject(instance, ctx);
 
                 WebDriver driver = getWebDriver(bm);
 
                 MyPageFactory.initElements(driver, instance);
+            }
+
+            @Override
+            public void postConstruct(X instance) {
+                super.postConstruct(instance);
+
+                popCurrentInjectionPoint();
             }
         };
 
@@ -163,8 +168,8 @@ class WebDriverExtension implements Extension {
             }
 
             @Override
-            public void postConstruct(X instance) {
-                super.postConstruct(instance);
+            public void inject(X instance, CreationalContext<X> ctx) {
+                super.inject(instance, ctx);
 
                 WebDriver driver = getWebDriver(bm);
 

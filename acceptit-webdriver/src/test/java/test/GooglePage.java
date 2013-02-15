@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.LoadableComponent;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.annotation.Nullable;
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.util.List;
 
@@ -38,6 +39,12 @@ public class GooglePage extends LoadableComponent<GooglePage> {
     @Inject
     @FindBy(name = "q")
     private SearchFieldUsingWebElement searchFieldUsingWebElement;
+
+    @PostConstruct
+    void validateInjection() {
+        assertThat(driver).isNotNull();
+        assertThat(searchField).isNotNull();
+    }
 
     @Override
     protected void load() {
