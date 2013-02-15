@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
@@ -36,6 +37,14 @@ public class WebDriverTest {
         sCaps.setCapability("takesScreenshot", true);
 
         return new PhantomJSDriver(sCaps);
+    }
+
+    @TestScoped
+    void closeDriver(@Disposes WebDriver driver) {
+        System.out.println("CLOSE");
+
+        driver.close();
+        driver.quit();
     }
 
     @Test
