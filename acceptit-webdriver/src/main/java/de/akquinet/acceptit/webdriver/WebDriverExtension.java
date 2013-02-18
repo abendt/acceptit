@@ -268,7 +268,6 @@ class SearchContextWrapper implements SearchContext {
 
     @Override
     public List<WebElement> findElements(By by) {
-        System.out.println("FIND " + by + " IN " + parent);
         return delegate.findElement(parent).findElements(by);
     }
 
