@@ -22,7 +22,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
  */
 public class WebDriverTest {
 
-    private boolean useFirefox = true;
+    private boolean useFirefox = false;
 
     @Rule
     public final AcceptItRule acceptItRule = new AcceptItRule();
