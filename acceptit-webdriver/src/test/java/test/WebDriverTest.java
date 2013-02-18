@@ -2,9 +2,12 @@ package test;
 
 import de.akquinet.acceptit.AcceptItRule;
 import de.akquinet.acceptit.TestScoped;
+import org.junit.Assume;
 import org.junit.Rule;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -19,6 +22,8 @@ import static org.fest.assertions.api.Assertions.assertThat;
  */
 public class WebDriverTest {
 
+    private boolean useFirefox = true;
+
     @Rule
     public final AcceptItRule acceptItRule = new AcceptItRule();
 
@@ -30,13 +35,17 @@ public class WebDriverTest {
 
     @Produces
     @TestScoped
-    WebDriver createPhantomJs() {
+    WebDriver createWebDriver() {
 
         DesiredCapabilities sCaps = new DesiredCapabilities();
         sCaps.setJavascriptEnabled(true);
         sCaps.setCapability("takesScreenshot", true);
 
-        return new PhantomJSDriver(sCaps);
+        if (useFirefox) {
+            return new FirefoxDriver();
+        } else {
+            return new PhantomJSDriver(sCaps);
+        }
     }
 
     @TestScoped
@@ -76,5 +85,40 @@ public class WebDriverTest {
         googlePage.searchUsingAtomWebElement("akquinet.de");
 
         assertThat(googlePage.getSearchResults()).contains("akquinet AG: akquinet AG Deutschland");
+    }
+
+    @Test
+    public void canUsePageObjectWithPageAtomUsingNestedWebElement() throws Exception {
+        assumeUsingFirefox();
+
+        googlePage.get();
+
+        verifyExpectedPageStructure();
+
+        assertThat(googlePage.countInputsUsingNestedWebElement()).isEqualTo(3);
+    }
+
+    /**
+     * some Tests don't run using PhantomJS
+     */
+    private void assumeUsingFirefox() {
+        Assume.assumeTrue(useFirefox);
+    }
+
+    private void verifyExpectedPageStructure() {
+        // the PageObjects using the nested structure rely on the existence of this
+        // HTML structure:
+        assertThat(driver.findElements(By.cssSelector("#gbfwa input"))).hasSize(3);
+    }
+
+    @Test
+    public void canUsePageObjectWithPageAtomUsingNestedBy() {
+        assumeUsingFirefox();
+
+        googlePage.get();
+
+        verifyExpectedPageStructure();
+
+        assertThat(googlePage.countInputsUsingNestedBy()).isEqualTo(3);
     }
 }

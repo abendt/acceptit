@@ -3,6 +3,8 @@ package test;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import de.akquinet.acceptit.webdriver.PageObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -33,12 +35,20 @@ public class GooglePage extends LoadableComponent<GooglePage> {
     private List<WebElement> searchResults;
 
     @Inject
+    @FindBy(id = "gbfwa")
+    private SearchFieldUsingNestedBy searchFieldUsingNestedBy;
+
+    @Inject
     @FindBy(name = "q")
     private SearchFieldUsingBy searchFieldUsingBy;
 
     @Inject
     @FindBy(name = "q")
     private SearchFieldUsingWebElement searchFieldUsingWebElement;
+
+    @Inject
+    @FindBy(id = "gbfwa")
+    private SearchFieldUsingNestedWebElement searchFieldUsingNestedWebElement;
 
     @PostConstruct
     void validateInjection() {
@@ -49,11 +59,22 @@ public class GooglePage extends LoadableComponent<GooglePage> {
     @Override
     protected void load() {
         driver.get("http://www.google.com");
+
+        new WebDriverWait(driver, 30).until(new ExpectedCondition<Boolean>() {
+            @Override
+            public Boolean apply(@Nullable WebDriver input) {
+                return input.findElement(By.name("q")).isDisplayed();
+            }
+        });
     }
 
     @Override
     protected void isLoaded() throws Error {
-        assertThat(driver.getTitle()).contains("Google");
+        try {
+            assertThat(driver.findElement(By.name("q")).isDisplayed()).isTrue();
+        } catch (NoSuchElementException e) {
+            throw new AssertionError();
+        }
     }
 
     public void searchUsingAtomBy(String query) {
@@ -66,6 +87,14 @@ public class GooglePage extends LoadableComponent<GooglePage> {
         searchFieldUsingWebElement.search(query);
 
         waitUntilSearchResultIsDisplayed();
+    }
+
+    public int countInputsUsingNestedWebElement() {
+        return searchFieldUsingNestedWebElement.getNumberOfInputs();
+    }
+
+    public int countInputsUsingNestedBy() {
+        return searchFieldUsingNestedBy.getNumberOfInputs();
     }
 
     private void waitUntilSearchResultIsDisplayed() {

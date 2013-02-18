@@ -3,6 +3,7 @@ package de.akquinet.acceptit.webdriver;
 import org.jboss.solder.beanManager.BeanManagerUtils;
 import org.jboss.weld.injection.ForwardingInjectionTarget;
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.*;
@@ -17,10 +18,7 @@ import javax.enterprise.util.AnnotationLiteral;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * @author Alphonse Bendt
@@ -100,15 +98,19 @@ class WebDriverExtension implements Extension {
         return new EmptyBean<By>(bm, By.class) {
             @Override
             public By create(CreationalContext<By> creationalContext) {
-                InjectionPoint ip = getCurrentInjectionPoint();
-
-                return parseFindByAnnotationsOfCurrentInjectionPoint(ip);
-            }
-
-            private By parseFindByAnnotationsOfCurrentInjectionPoint(InjectionPoint ip) {
-                return new Annotations((Field) ip.getMember()).buildBy();
+                return createByForCurrentInjectionPoint();
             }
         };
+    }
+
+    private By createByForCurrentInjectionPoint() {
+        InjectionPoint ip = getCurrentInjectionPoint();
+
+        return parseFindByAnnotationsOfCurrentInjectionPoint(ip);
+    }
+
+    private By parseFindByAnnotationsOfCurrentInjectionPoint(InjectionPoint ip) {
+        return new Annotations((Field) ip.getMember()).buildBy();
     }
 
     <X> void processInjectionTarget(@Observes ProcessInjectionTarget<X> pit, final BeanManager bm) {
@@ -144,7 +146,7 @@ class WebDriverExtension implements Extension {
 
                 WebDriver driver = getWebDriver(bm);
 
-                MyPageFactory.initElements(driver, instance);
+                MyPageFactory.initElements(driver, instance, createByForCurrentInjectionPoint());
             }
 
             @Override
@@ -254,6 +256,28 @@ class WebDriverExtension implements Extension {
     }
 }
 
+class SearchContextWrapper implements SearchContext {
+
+    private final By parent;
+    private final SearchContext delegate;
+
+    SearchContextWrapper(SearchContext delegate, By parent) {
+        this.delegate = delegate;
+        this.parent = parent;
+    }
+
+    @Override
+    public List<WebElement> findElements(By by) {
+        System.out.println("FIND " + by + " IN " + parent);
+        return delegate.findElement(parent).findElements(by);
+    }
+
+    @Override
+    public WebElement findElement(By by) {
+        return delegate.findElement(parent).findElement(by);
+    }
+}
+
 /**
  * in contrast to the original implementation this modified version
  * will not inject into non null members.
@@ -263,6 +287,11 @@ class MyPageFactory {
     static void initElements(WebDriver driver, Object page) {
         final WebDriver driverRef = driver;
         initElements(new DefaultElementLocatorFactory(driverRef), page);
+    }
+
+    static void initElements(WebDriver driver, Object page, By parentLocator) {
+        final WebDriver driverRef = driver;
+        initElements(new DefaultElementLocatorFactory(new SearchContextWrapper(driverRef, parentLocator)), page);
     }
 
     static void initElements(ElementLocatorFactory factory, Object page) {

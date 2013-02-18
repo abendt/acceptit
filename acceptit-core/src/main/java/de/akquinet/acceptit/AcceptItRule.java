@@ -62,7 +62,6 @@ public class AcceptItRule implements MethodRule {
             final CreationalContext<Object> creationalContext = BeanManagerUtils.injectNonContextualInstance(beanManager, target);
 
             try {
-
                 base.evaluate();
             } finally {
                 creationalContext.release();
