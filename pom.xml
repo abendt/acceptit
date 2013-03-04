@@ -12,7 +12,7 @@
     <modules>
         <module>acceptit-core</module>
         <module>acceptit-webdriver</module>
-        <module>acceptit-jms</module>
+        <!-- <module>acceptit-jms</module> -->
     </modules>
 
     <properties>
