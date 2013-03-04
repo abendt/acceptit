@@ -1,0 +1,24 @@
+<configuration xmlns="urn:hornetq"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="urn:hornetq https://raw.github.com/hornetq/hornetq/HornetQ_2_3_0_CR1/hornetq-jms-server/src/main/resources/schema/hornetq-jms.xsd">
+
+    <connection-factory name="ConnectionFactory">
+        <connectors>
+            <connector-ref connector-name="in-vm"/>
+        </connectors>
+
+        <entries>
+            <entry name="ConnectionFactory"/>
+        </entries>
+    </connection-factory>
+
+    <queue name="exampleQueue">
+        <entry name="/queue/exampleQueue"/>
+    </queue>
+
+    <topic name="exampleTopic">
+        <entry name="/topic/exampleTopic"/>
+    </topic>
+
+
+</configuration>
