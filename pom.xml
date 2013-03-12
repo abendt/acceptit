@@ -71,4 +71,20 @@
             </snapshots>
         </repository>
     </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>atsrepo</id>
+            <name>repo.spree.de.atscommonsReleases</name>
+            <url>https://repo.spree.de/nexus/content/repositories/atscommons-releases</url>
+            <uniqueVersion>false</uniqueVersion>
+        </repository>
+
+        <snapshotRepository>
+            <id>atsrepo</id>
+            <name>repo.spree.de.atscommonsSnapshots</name>
+            <url>https://repo.spree.de/nexus/content/repositories/atscommons-snapshots</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
 </project>
