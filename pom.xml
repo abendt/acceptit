@@ -5,7 +5,7 @@
     <groupId>de.akquinet.acceptit</groupId>
     <artifactId>acceptit</artifactId>
     <packaging>pom</packaging>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.3-SNAPSHOT</version>
 
     <modules>
         <module>acceptit-core</module>
@@ -17,7 +17,8 @@
         <connection>scm:git:https://github.com/abendt/acceptit.git</connection>
         <developerConnection>scm:git:https://github.com/abendt/acceptit.git</developerConnection>
         <url>https://github.com/abendt/acceptit</url>
-    </scm>
+      <tag>HEAD</tag>
+  </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
