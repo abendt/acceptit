@@ -12,7 +12,6 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.LoadableComponent;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import javax.annotation.Nullable;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.util.List;
@@ -62,7 +61,7 @@ public class GooglePage extends LoadableComponent<GooglePage> {
 
         new WebDriverWait(driver, 30).until(new ExpectedCondition<Boolean>() {
             @Override
-            public Boolean apply(@Nullable WebDriver input) {
+            public Boolean apply(WebDriver input) {
                 return input.findElement(By.name("q")).isDisplayed();
             }
         });
@@ -100,7 +99,7 @@ public class GooglePage extends LoadableComponent<GooglePage> {
     private void waitUntilSearchResultIsDisplayed() {
         new WebDriverWait(driver, 30).until(new ExpectedCondition<Boolean>() {
             @Override
-            public Boolean apply(@Nullable WebDriver input) {
+            public Boolean apply(WebDriver input) {
                 return !searchResults.isEmpty();
             }
         });

@@ -68,7 +68,7 @@ public class WebDriverTest {
         googlePage.get();
         googlePage.search("akquinet.de");
 
-        assertThat(googlePage.getSearchResults()).contains("akquinet AG: akquinet AG Deutschland");
+        assertThat(googlePage.getSearchResults()).contains("akquinet AG Deutschland: akquinet AG");
     }
 
     @Test
@@ -76,7 +76,7 @@ public class WebDriverTest {
         googlePage.get();
         googlePage.searchUsingAtomBy("akquinet.de");
 
-        assertThat(googlePage.getSearchResults()).contains("akquinet AG: akquinet AG Deutschland");
+        assertThat(googlePage.getSearchResults()).contains("akquinet AG Deutschland: akquinet AG");
     }
 
     @Test
@@ -84,7 +84,7 @@ public class WebDriverTest {
         googlePage.get();
         googlePage.searchUsingAtomWebElement("akquinet.de");
 
-        assertThat(googlePage.getSearchResults()).contains("akquinet AG: akquinet AG Deutschland");
+        assertThat(googlePage.getSearchResults()).contains("akquinet AG Deutschland: akquinet AG");
     }
 
     @Test
