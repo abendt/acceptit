@@ -284,18 +284,15 @@ class SearchContextWrapper implements SearchContext {
 class MyPageFactory {
 
     static void initElements(WebDriver driver, Object page) {
-        final WebDriver driverRef = driver;
-        initElements(new DefaultElementLocatorFactory(driverRef), page);
+        initElements(new DefaultElementLocatorFactory(driver), page);
     }
 
     static void initElements(WebDriver driver, Object page, By parentLocator) {
-        final WebDriver driverRef = driver;
-        initElements(new DefaultElementLocatorFactory(new SearchContextWrapper(driverRef, parentLocator)), page);
+        initElements(new DefaultElementLocatorFactory(new SearchContextWrapper(driver, parentLocator)), page);
     }
 
     static void initElements(ElementLocatorFactory factory, Object page) {
-        final ElementLocatorFactory factoryRef = factory;
-        initElements(new DefaultFieldDecorator(factoryRef), page);
+        initElements(new DefaultFieldDecorator(factory), page);
     }
 
     static void initElements(FieldDecorator decorator, Object page) {
