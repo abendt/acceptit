@@ -14,7 +14,7 @@ import java.util.Map;
  */
 class AcceptItExtension implements Extension {
 
-    private BoundRequestContextImpl testExecutionContext = new BoundRequestContextImpl() {
+    private final BoundRequestContextImpl testExecutionContext = new BoundRequestContextImpl() {
         @Override
         public Class<? extends Annotation> getScope() {
             return TestScoped.class;
