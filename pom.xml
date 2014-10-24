@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.akquinet.acceptit</groupId>
     <artifactId>acceptit</artifactId>
     <packaging>pom</packaging>
     <version>0.4-SNAPSHOT</version>
+
+    <prerequisites>
+        <maven>3.2.1</maven>
+    </prerequisites>
 
     <modules>
         <module>acceptit-core</module>
@@ -17,8 +22,8 @@
         <connection>scm:git:https://github.com/abendt/acceptit.git</connection>
         <developerConnection>scm:git:https://github.com/abendt/acceptit.git</developerConnection>
         <url>https://github.com/abendt/acceptit</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -29,7 +34,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>3.2</version>
 
                 <configuration>
                     <source>1.6</source>
@@ -39,7 +44,7 @@
 
             <plugin>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
+                <version>2.4</version>
 
                 <executions>
                     <execution>
@@ -57,7 +62,7 @@
             <plugins>
                 <plugin>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>2.5</version>
+                    <version>2.5.1</version>
                 </plugin>
             </plugins>
         </pluginManagement>
